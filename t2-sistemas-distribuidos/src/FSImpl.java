@@ -1,4 +1,4 @@
-import java.io.File;
+import java.io.*;
 import java.rmi.RemoteException;
 import java.rmi.server.RMIClientSocketFactory;
 import java.rmi.server.RMIServerSocketFactory;
@@ -21,28 +21,40 @@ public class FSImpl extends UnicastRemoteObject implements FSInterface{
 
     @Override
     public String[] ls(String path) throws RemoteException {
-        return new String[0];
+        return new File(path).list();
     }
 
     @Override
     public int mkdir(String path) throws RemoteException {
-        File d = new File(path);
-        d.mkdirs();
-        return 1;
+        return Boolean.hashCode(new File(path).mkdir());
     }
 
     @Override
     public int create(String path) throws RemoteException {
+        try {
+            new FileOutputStream(path);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         return 0;
     }
 
     @Override
     public int unlink(String path) throws RemoteException {
-        return 0;
+        return Boolean.hashCode(new File(path).delete());
     }
 
     @Override
     public int write(byte[] data, String path) throws RemoteException {
+        try {
+            OutputStream outputStream = new FileOutputStream(path);
+            for (int x = 0; x < data.length ; x++) {
+                outputStream.write(data[x]);
+            }
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return 0;
     }
 
