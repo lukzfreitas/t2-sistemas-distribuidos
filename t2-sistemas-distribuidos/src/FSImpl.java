@@ -26,40 +26,55 @@ public class FSImpl extends UnicastRemoteObject implements FSInterface{
 
     @Override
     public int mkdir(String path) throws RemoteException {
-        return Boolean.hashCode(new File(path).mkdir());
+        return new File(path).mkdir() ? 1 : -1;
     }
 
     @Override
     public int create(String path) throws RemoteException {
         try {
-            new FileOutputStream(path);
-        } catch (FileNotFoundException e) {
+            FileOutputStream fileOutputStream = new FileOutputStream(path);
+            fileOutputStream.close();
+            return 1;
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        return 0;
+        return -1;
     }
 
     @Override
     public int unlink(String path) throws RemoteException {
-        return Boolean.hashCode(new File(path).delete());
+        return new File(path).delete() ? 1 : -1;
     }
 
     @Override
     public int write(byte[] data, String path) throws RemoteException {
         try {
             OutputStream outputStream = new FileOutputStream(path);
-            for (int x = 0; x < data.length ; x++) {
-                outputStream.write(data[x]);
+            for (int i = 0; i < data.length ; i++) {
+                outputStream.write(data[i]);
             }
             outputStream.close();
+            return 1;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return 0;
+        return -1;
     }
 
     @Override
     public byte[] read(String path) throws RemoteException {
-        return new byte[0];
+        try {
+            InputStream inputStream = new FileInputStream(path);
+            int size = inputStream.available();
+            byte[] fileContent = new byte[size];
+            for(int i = 0; i < size; i++) {
+                fileContent[i] = (byte)inputStream.read();
+            }
+            inputStream.close();
+            return fileContent;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
