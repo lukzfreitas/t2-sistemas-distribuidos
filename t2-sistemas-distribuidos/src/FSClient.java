@@ -26,7 +26,7 @@ public class FSClient {
                     String[] inputData;
                     inputData = input.split(" ");
                     if (inputData.length > 2 || inputData.length < 1) {
-                        System.out.println("Command invalid!");
+                        System.out.println("Comando inválido!");
                     }
                     String command = inputData[0];
                     String path = ".";
@@ -57,14 +57,14 @@ public class FSClient {
                             System.exit(1);
                             break;
                         default:
-                            System.out.println("Command invalid!");
+                            System.out.println("Comando inválido!");
                     }
                     System.out.print("> ");
                 }
                 sc.close();
             }
         } catch (Exception e) {
-            System.out.println("Connection failed");
+            System.out.println("Falha de conexão");
             e.printStackTrace();
         }
     }
@@ -78,7 +78,7 @@ public class FSClient {
             }
             System.out.println();
         } catch (Exception e) {
-            System.out.println("read file failed");
+            System.out.println("falha na leitura do arquivo");
             e.printStackTrace();
         }
     }
@@ -86,15 +86,15 @@ public class FSClient {
     private void writeFile(String path) {
         try {
             Scanner sc = new Scanner(System.in);
-            System.out.println("Insert text");
+            System.out.println("Insira o texto");
             String text = sc.nextLine();
             if (fs.write(text.getBytes(), path) > 0) {
-                System.out.println("file wrote");
+                System.out.println("arquivo salvo");
             } else {
-                System.out.println("write file failed");
+                System.out.println("falha ao salvar arquivo");
             }
         } catch (Exception e) {
-            System.out.println("write file failed");
+            System.out.println("falha ao salvar arquivo");
             e.printStackTrace();
         }
     }
@@ -102,12 +102,12 @@ public class FSClient {
     private void createFile(String path) {
         try {
             if (fs.create(path) > 0) {
-                System.out.println("create file");
+                System.out.println("Arquivo criado");
             } else {
-                System.out.println("create file failed");
+                System.out.println("Falha ao criar arquivo");
             }
         } catch (Exception e) {
-            System.out.println("create file failed");
+            System.out.println("Falha ao criar arquivo");
             e.printStackTrace();
         }
     }
@@ -115,12 +115,12 @@ public class FSClient {
     private void deleteFile(String path) {
         try {
             if (fs.unlink(path) > 0) {
-                System.out.println("deleted");
+                System.out.println("Arquivo deletado");
             } else {
-                System.out.println("delete file failed");
+                System.out.println("Falha ao deletar arquivo");
             }
         } catch (Exception e) {
-            System.out.println("delete file failed");
+            System.out.println("Falha ao deletar arquivo");
             e.printStackTrace();
         }
     }
@@ -130,14 +130,14 @@ public class FSClient {
             String[] contents;
             contents = fs.ls(path);
             if (contents.length == 0) {
-                System.out.println("folder empty!!!");
+                System.out.println("Diretório vazio");
                 return;
             }
             for(String content: contents) {
                 System.out.println(content);
             }
         } catch (Exception e) {
-            System.out.println("list contents failed");
+            System.out.println("Falha ao listar arquivos");
             e.printStackTrace();
         }
     }
@@ -145,12 +145,12 @@ public class FSClient {
     private void createFolder(String path) {
         try {
             if (fs.mkdir(path) > 0) {
-                System.out.println("create folder!!!");
+                System.out.println("Diretório criado");
             } else {
-                System.out.println("create folder failed");
+                System.out.println("Falha ao criar diretório");
             }
         } catch (Exception e) {
-            System.out.println("create folder failed");
+            System.out.println("Falha ao criar Diretório");
             e.printStackTrace();
         }
     }
