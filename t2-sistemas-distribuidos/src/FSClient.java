@@ -5,18 +5,22 @@ import java.util.Scanner;
 public class FSClient {
 
     public static void main(String[] args) {
-        new FSClient();
+        if	(args.length != 1)  {
+            System.out.println("Uso: java FSClient <maquina>");
+            System.exit(1);
+        }
+        new FSClient(args[0]);
     }
 
     FSInterface fs = null;
 
-    public FSClient() {
-        initCommandLine();
+    public FSClient(String host) {
+        initCommandLine(host);
     }
 
-    private void initCommandLine() {
+    private void initCommandLine(String host) {
         try {
-            fs = (FSInterface) Naming.lookup("//localhost/FSImpl");
+            fs = (FSInterface) Naming.lookup("//" + host + "/FSImpl");
             while (true) {
                 System.out.println("ls <path> | mkdir <path> | create <path> | unlink <path> | write <path> | read <path>");
                 System.out.print("> ");
@@ -25,32 +29,33 @@ public class FSClient {
                     String input = sc.nextLine();
                     String[] inputData;
                     inputData = input.split(" ");
-                    if (inputData.length > 2 || inputData.length < 1) {
+                    if (inputData.length < 1) {
                         System.out.println("Comando inválido!");
                     }
                     String command = inputData[0];
-                    String path = ".";
+                    String path = new File(".").getCanonicalPath() + "\\root";
+                    String parameter = "";
                     if (inputData.length > 1) {
-                        path = inputData[1];
+                        parameter = inputData[1];
                     }
                     switch (command) {
                         case "ls":
                             listFiles(path);
                             break;
                         case "mkdir":
-                            createFolder(path);
+                            createFolder(path, parameter);
                             break;
                         case "create":
-                            createFile(path);
+                            createFile(path, parameter);
                             break;
                         case "unlink":
-                            deleteFile(path);
+                            deleteFile(path, parameter);
                             break;
                         case "write":
-                            writeFile(path);
+                            writeFile(path, parameter);
                             break;
                         case "read":
-                            readFile(path);
+                            readFile(path, parameter);
                             break;
                         case "exit":
                             System.out.println("bye bye");
@@ -70,9 +75,9 @@ public class FSClient {
     }
 
 
-    private void readFile(String path) {
+    private void readFile(String path, String file) {
         try {
-            byte[] fileContent = fs.read(path);
+            byte[] fileContent = fs.read(path + "\\" + file);
             for (int i = 0; i < fileContent.length; i++) {
                 System.out.print((char)fileContent[i]);
             }
@@ -83,12 +88,12 @@ public class FSClient {
         }
     }
 
-    private void writeFile(String path) {
+    private void writeFile(String path, String parameter) {
         try {
             Scanner sc = new Scanner(System.in);
             System.out.println("Insira o texto");
             String text = sc.nextLine();
-            if (fs.write(text.getBytes(), path) > 0) {
+            if (fs.write(text.getBytes(), path + "\\" + parameter) > 0) {
                 System.out.println("arquivo salvo");
             } else {
                 System.out.println("falha ao salvar arquivo");
@@ -99,9 +104,9 @@ public class FSClient {
         }
     }
 
-    private void createFile(String path) {
+    private void createFile(String path, String file) {
         try {
-            if (fs.create(path) > 0) {
+            if (fs.create(path + "\\" + file) > 0) {
                 System.out.println("Arquivo criado");
             } else {
                 System.out.println("Falha ao criar arquivo");
@@ -112,9 +117,9 @@ public class FSClient {
         }
     }
 
-    private void deleteFile(String path) {
+    private void deleteFile(String path, String file) {
         try {
-            if (fs.unlink(path) > 0) {
+            if (fs.unlink(path + "\\" + file) > 0) {
                 System.out.println("Arquivo deletado");
             } else {
                 System.out.println("Falha ao deletar arquivo");
@@ -142,9 +147,9 @@ public class FSClient {
         }
     }
 
-    private void createFolder(String path) {
+    private void createFolder(String path, String folder) {
         try {
-            if (fs.mkdir(path) > 0) {
+            if (fs.mkdir(path + "\\" + folder) > 0) {
                 System.out.println("Diretório criado");
             } else {
                 System.out.println("Falha ao criar diretório");

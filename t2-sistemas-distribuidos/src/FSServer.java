@@ -2,6 +2,7 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 
 public class FSServer {
+
     public static void main(String[] args) {
         try {
             java.rmi.registry.LocateRegistry.createRegistry(1099);
