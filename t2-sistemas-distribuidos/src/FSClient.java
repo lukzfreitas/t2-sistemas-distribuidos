@@ -22,7 +22,7 @@ public class FSClient {
         try {
             fs = (FSInterface) Naming.lookup("//" + host + "/FSImpl");
             while (true) {
-                System.out.println("ls <path> | mkdir <path> | create <path> | unlink <path> | write <path> | read <path>");
+                System.out.println("ls | mkdir <folder> | create <file> | unlink <file> | write <file> | read <file>");
                 System.out.print("> ");
                 Scanner sc = new Scanner(System.in);
                 while (sc.hasNext()) {
@@ -33,7 +33,7 @@ public class FSClient {
                         System.out.println("Comando inválido!");
                     }
                     String command = inputData[0];
-                    String path = new File(".").getCanonicalPath() + "\\root";
+                    String path = ".";
                     String parameter = "";
                     if (inputData.length > 1) {
                         parameter = inputData[1];

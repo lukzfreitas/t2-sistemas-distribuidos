@@ -26,7 +26,6 @@ public class FSImpl extends UnicastRemoteObject implements FSInterface{
 
     @Override
     public int mkdir(String path) throws RemoteException {
-        System.out.println(path);
         return new File(path).mkdir() ? 1 : -1;
     }
 
