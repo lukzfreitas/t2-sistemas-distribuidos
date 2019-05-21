@@ -1,4 +1,4 @@
-# t2-sistemas-distribuidos
+# Java RMI T2 
 
 ## Comandos
 1. Acessar o diretório:
