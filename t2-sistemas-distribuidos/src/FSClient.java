@@ -18,6 +18,7 @@ public class FSClient {
         initCommandLine(host);
     }
 
+    // Menu de comandos para serem executados 
     private void initCommandLine(String host) {
         try {
             fs = (FSInterface) Naming.lookup("//" + host + "/FSImpl");
@@ -74,7 +75,7 @@ public class FSClient {
         }
     }
 
-
+    // Realiza a leitura dos bytes do conteúdo do arquivo recuperado e imprime na tela
     private void readFile(String path, String file) {
         try {
             byte[] fileContent = fs.read(path + "\\" + file);
@@ -88,6 +89,7 @@ public class FSClient {
         }
     }
 
+    // Escreve no arquivo selecionado o texto inserido
     private void writeFile(String path, String parameter) {
         try {
             Scanner sc = new Scanner(System.in);
@@ -104,6 +106,7 @@ public class FSClient {
         }
     }
 
+    // Criar um novo arquivo
     private void createFile(String path, String file) {
         try {
             if (fs.create(path + "\\" + file) > 0) {
@@ -117,6 +120,7 @@ public class FSClient {
         }
     }
 
+    // Deletar um arquivo ou pasta
     private void deleteFile(String path, String file) {
         try {
             if (fs.unlink(path + "\\" + file) > 0) {
@@ -130,6 +134,7 @@ public class FSClient {
         }
     }
 
+    // Lista todos arquivos, pastas, etc dentro da pasta do servidor
     private void listFiles(String path) {
         try {
             String[] contents;
@@ -147,6 +152,7 @@ public class FSClient {
         }
     }
 
+    // Criar uma nova pasta
     private void createFolder(String path, String folder) {
         try {
             if (fs.mkdir(path + "\\" + folder) > 0) {
