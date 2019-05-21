@@ -1,7 +1,7 @@
 # Java RMI T2 
 
 ## Comandos
-1. Acessar o diretório:
+1. Acessar o diretório via cmd:
 ```
 t2-sistemas-distribuidos/out/production/t2-sistemas-distribuidos/
 ```
