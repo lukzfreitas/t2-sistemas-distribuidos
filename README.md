@@ -2,4 +2,4 @@
 
 'java -Djava.rmi.server.hostname=<ip address> FSServer'
   
-'java FSServer <ip address>'
+'java FSClient <ip address>'
