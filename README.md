@@ -3,7 +3,7 @@
 ## Comandos
 1. Acessar o diretório:
 ```
-java -Djava.rmi.server.hostname='ip address' FSServer
+t2-sistemas-distribuidos/out/production/t2-sistemas-distribuidos/
 ```
 2. Iniciar Servidor: 
 ```
